@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 //서버가 데이터에 대한 응답을 줄 때 사용 = JSON형식으로 데이터를 주는 자동응답기
@@ -35,13 +36,20 @@ public class Blogcontroller {
         return blogRepository.save(blog);
     }
 
+
     // /api/blogs라는 주소로 데이터 조회 요청이 오면 아래의 메소드를 실행
     @GetMapping("/api/blogs")
     public List<Blog> getBlog() {
         return blogRepository.findAllByOrderByModifiedAtDesc();
     }
 
-    @PutMapping("/api/blogs/{id}") // PathVariable: 경로에 있는 변수
+    @GetMapping("/api/blogs/detail/{id}")
+    public Blog getDetail (@PathVariable Long id) {
+        return blogRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("null"));
+}
+
+    @PutMapping("/api/blogs/detail/{id}") // PathVariable: 경로에 있는 변수
     public Long updateBlog(@PathVariable Long id, @RequestBody BlogRequestDto requestDto) {
         return blogService.update(id, requestDto);
     }

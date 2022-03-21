@@ -1,5 +1,6 @@
 package com.hanghae99.w3blogproject.domain;
 
+import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -10,6 +11,7 @@ import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
 
+@Getter
 @MappedSuperclass // Entity가 자동으로 컬럼으로 인식
 @EntityListeners(AuditingEntityListener.class) // 생성, 수정시간을 자동으로 반영하도록 설정하는 어노테이션
 

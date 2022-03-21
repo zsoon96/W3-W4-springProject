@@ -11,7 +11,7 @@ import javax.transaction.Transactional;
 @RequiredArgsConstructor // final 이나 NonNull인 파라미터만 추가 작업을 필요로하는 필드에 대한 생성자 추가
 @Service // 스프링에게 이 클래스스 서비스임을 알려주는 어노테이션
 public class BlogService {
-
+    
     // final: 서비스에게 꼭 필요한 녀석임을 알려줌
     private final BlogRepository blogRepository;
 

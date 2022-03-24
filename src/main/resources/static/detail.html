@@ -11,17 +11,37 @@
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
             crossorigin="anonymous"></script>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sunflower:wght@300&display=swap" rel="stylesheet">
+
     <style>
-        .size {
-            width: 500px;
-            height: 400px;
-            margin: auto;
-            margin-top: 200px;
+        * {
+            font-family: 'Sunflower', sans-serif;
         }
 
-        .cleanBtn {
-            border: 0px;
+        .size {
+            width: 540px;
+            height: 100%;
+            margin: auto;
+            margin-top: 180px;
         }
+
+        .title {
+            /*background-color: palegreen;*/
+            margin-top: 15px;
+        }
+        .content {
+            /*background-color: blue;*/
+            height: 150px;
+            font-size: 18px;
+        }
+
+        .button {
+            /*background-color: blueviolet;*/
+        }
+
+
     </style>
 
     <script>
@@ -71,9 +91,9 @@
             작성자
         </div>
         <div class="card-body">
-            <h5 class="card-title" id="title">제목</h5>
-            <p class="card-text" id="content">ㅓ내용입니다</p>
-            <button onclick="back()"><a href="#" class="btn btn-primary cleanBtn">돌아가기</a></button>
+            <h5 class="card-title title" id="title">제목</h5>
+            <p class="card-text content" id="content">내용입니다</p>
+            <button class="button" onclick="back()">돌아가기</button>
         </div>
         <div class="card-footer text-muted" id="modifiedAt">
             날짜

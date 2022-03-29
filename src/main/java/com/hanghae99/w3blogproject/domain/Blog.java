@@ -1,5 +1,6 @@
 package com.hanghae99.w3blogproject.domain;
 
+import com.hanghae99.w3blogproject.dto.BlogRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

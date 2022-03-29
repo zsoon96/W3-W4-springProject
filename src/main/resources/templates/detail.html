@@ -24,7 +24,7 @@
             width: 540px;
             height: 100%;
             margin: auto;
-            margin-top: 180px;
+            margin-top: 100px;
         }
 
         .title {
@@ -39,6 +39,19 @@
 
         .button {
             /*background-color: blueviolet;*/
+        }
+
+        .commentBox {
+            width: 540px;
+            display: block;
+            margin: auto;
+            margin-top: 40px;
+            background-color: #ffd43b;
+        }
+
+        .btnStyle {
+            float: right;
+            margin-top: 18px;
         }
 
 
@@ -72,6 +85,7 @@
                     $('#name').text(response['name']);
                     $('#content').text(response['content']);
                     $('#modifiedAt').text(response['modifiedAt']);
+
                 }
             })
         }
@@ -79,6 +93,9 @@
         function back(){
             window.location.href='/'
         }
+
+        // 댓글 등록하기
+
 
     </script>
 </head>
@@ -93,6 +110,7 @@
         <div class="card-body">
             <h5 class="card-title title" id="title">제목</h5>
             <p class="card-text content" id="content">내용입니다</p>
+<!--            <button class="button" onclick="editPost()">수정하기</button>-->
             <button class="button" onclick="back()">돌아가기</button>
         </div>
         <div class="card-footer text-muted" id="modifiedAt">
@@ -100,6 +118,15 @@
         </div>
     </div>
 </div>
+
+<div>
+    <label class="commentBox">
+        <textarea class="textarea" id="comment" name="comment" rows="2" placeholder="댓글을 남겨주세요."></textarea>
+        <input type="submit" class="btn btn-primary btnStyle" onclick = "writeComment()" value="댓글작성">
+    </label>
+</div>
+
+
 
 </body>
 

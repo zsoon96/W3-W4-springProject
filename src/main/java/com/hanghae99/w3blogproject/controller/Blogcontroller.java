@@ -1,14 +1,16 @@
 package com.hanghae99.w3blogproject.controller;
 
 import com.hanghae99.w3blogproject.domain.Blog;
-import com.hanghae99.w3blogproject.domain.BlogRepository;
-import com.hanghae99.w3blogproject.domain.BlogRequestDto;
+import com.hanghae99.w3blogproject.repository.BlogRepository;
+import com.hanghae99.w3blogproject.dto.BlogRequestDto;
+import com.hanghae99.w3blogproject.security.UserDetailsImpl;
 import com.hanghae99.w3blogproject.service.BlogService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 //서버가 데이터에 대한 응답을 줄 때 사용 = JSON형식으로 데이터를 주는 자동응답기
@@ -58,5 +60,11 @@ public class Blogcontroller {
     public Long deleteBlog(@PathVariable Long id) {
         blogRepository.deleteById(id);
         return id;
+    }
+
+
+    @GetMapping("/api/blogs/comments")
+    public ModelAndView getOneBlogAndComments(@RequestParam Long id, @AuthenticationPrincipal UserDetailsImpl userDetails){
+        return blogService.getOneBlogAndComments(id, userDetails);
     }
 }

@@ -1,17 +1,10 @@
 package com.hanghae99.w3blogproject;
 
-import com.hanghae99.w3blogproject.domain.Blog;
-import com.hanghae99.w3blogproject.domain.BlogRepository;
-import com.hanghae99.w3blogproject.domain.BlogRequestDto;
-import com.hanghae99.w3blogproject.service.BlogService;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import javax.annotation.PostConstruct;
-import java.util.List;
 import java.util.TimeZone;
 
 @EnableJpaAuditing // 수정일자를 완벽하게 반영하는 어노테이션 = 날짜 자동 업데이트

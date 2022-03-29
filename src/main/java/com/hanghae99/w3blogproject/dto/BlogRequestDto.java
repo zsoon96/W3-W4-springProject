@@ -1,4 +1,4 @@
-package com.hanghae99.w3blogproject.domain;
+package com.hanghae99.w3blogproject.dto;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

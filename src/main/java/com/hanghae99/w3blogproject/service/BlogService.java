@@ -30,9 +30,8 @@ public class BlogService {
 //        this.blogRepository = blogRepository;
 //    }
 
-    @Transactional // SQL 쿼리가 일어나야 함을 스프링에게 알려주는 어노테이션
+//    @Transactional // SQL 쿼리가 일어나야 함을 스프링에게 알려주는 어노테이션
     // DB에 업데이트된 정보를 반영해주는 어노테이션
-
     // 업데이트 부분 (업데이트 할 아이디, 업데이트할 정보를 가져올 녀석)
     public Long update(Long id, BlogRequestDto requestDto){
         Blog blog1 = blogRepository.findById(id).orElseThrow(

@@ -1,17 +1,22 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>게시물 상세보기</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+<!--    뭔지 모를 링크-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
             crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -43,68 +48,311 @@
             /*background-color: blueviolet;*/
         }
 
-        .commentBox {
-            width: 540px;
-            display: block;
-            margin: auto;
-            margin-top: 40px;
-            background-color: #ffd43b;
+        /*////////////////////////////////////////////////*/
+
+        .card{
+            width: 500px;
+            margin: 50px auto auto auto;
+            text-align: center;
+        }
+        .time{
+
+            font-size: 11px;
+        }
+        .name{
+            font-size: 13px;
+        }
+        .tit{
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .icon{
+            position: fixed;
+            top: 215px;
+            margin-left: 220px;
+        }
+        .con:hover{
+            color: red;
+            cursor: pointer;
         }
 
-        .btnStyle {
-            float: right;
-            margin-top: 18px;
+        .title-area{
+            width: 100px;
+            margin: auto;
+            display: none;
         }
+
+
+        .container:hover{
+            cursor: pointer;
+        }
+        .btn{
+            height: 40px;
+            color: black;
+        }
+        .bbtn{
+            color: black;
+        }
+
+        .comment{
+            width: 500px;
+            margin: 50px auto;
+        }
+        .comment-btn{
+            width: 100px;
+            margin: 10px auto;
+            display: block;
+
+        }
+        .comment-box{
+            width: 500px;
+            margin: auto;
+            margin-bottom: 100px;
+        }
+        .comment-text{
+            display: none;
+        }
+        .check{
+            display: none;
+        }
+        .hide{
+            display: none;
+        }
+        .article-area{
+            display: none;
+        }
+        .submit{
+            display: none;
+        }
+        .comment-modi{
+            float: right;
+            color: gray;
+        }
+        .comment-name{
+            float: left;
+        }
+        .btn-box{
+            margin: auto 1px auto auto;
+        }
+
 
 
     </style>
 
-    <script>
-        function getParameter(name) {
-            name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-            let regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-                results = regex.exec(location.search);
-            return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, ""));
-        }
+    <script th:inline="javascript">
+        var usernames = /*[[${#authentication.name}]]*/ 'null'
 
+        console.log(usernames)
         $(document).ready(function () {
-            getMessages();
+            getComment();
         })
 
-        let id = getParameter("id");
-
-        // 메모를 불러와서 보여주기
-        function getMessages() {
-            // 1. 기존 메모 내용을 지우기
-            // $('#review-list').empty();
-            // 2. 메모 목록을 불러와서 HTML 로 붙이기
-            $.ajax({
-                type: 'GET',
-                url: `/api/blogs/detail/${id}`,
-                data: {},
-                success: function (response) {
-                    $('#title').text(response['title']);
-                    $('#name').text(response['name']);
-                    $('#content').text(response['content']);
-                    $('#modifiedAt').text(response['modifiedAt']);
-                }
-            })
-        }
+        // // 게시글 상세 조회
+        // function getMessages() {
+        //     // 1. 기존 메모 내용을 지우기
+        //     // $('#review-list').empty();
+        //     // 2. 메모 목록을 불러와서 HTML 로 붙이기
+        //     $.ajax({
+        //         type: 'GET',
+        //         url: `/api/blogs/${id}`,
+        //         data: {},
+        //         success: function (response) {
+        //             $('#title').text(response['title']);
+        //             $('#username').text(response['username']);
+        //             $('#content').text(response['content']);
+        //             $('#modifiedAt').text(response['modifiedAt']);
+        //         }
+        //     })
+        // }
 
         function back(){
             window.location.href='/'
         }
 
         function deleteOne() {
-            if (confirm("정말 삭제하시겠습니까?") == true){
+            let id = [[${id}]];
+
+            $.ajax({
+                type: "DELETE",
+                url: `/api/blogs/${id}`,
+                success: function (response) {
+                    console.log(response)
+                    if (response==="삭제성공"){
+                        alert('메세지 삭제에 성공하였습니다.');
+                        window.location.assign("/");
+                    } else {
+                        alert('작성자만 삭제할 수 있습니다.');
+                        // window.location.href = '/';
+                    }
+                }
+            })
+        }
+
+
+
+        //댓글
+        function isValidComments(comment) {
+
+            if (comment == '') {
+                alert('내용을 입력해주세요');
+                return false;
+            }
+            if (comment.trim().length > 100) {
+                alert('공백 포함 100자 이하로 입력해주세요');
+                return false;
+            }
+            return true;
+        }
+        //댓글 생성
+        function writeComment() {
+            if (usernames == 'anonymousUser') {
+                alert("로그인이 필요합니다!")
+                window.location.assign('/user/login')
+            } else {
+                //작성한 코멘트를 불러옵니다.
+                let comment = $('#comment').val();
+                //작성한 코멘트가 올바른지 isValidContents 함수를 통해 확인합니다.
+                if (isValidComments(comment) == false) {
+                    return;
+                }
+                //전달할 data JSON으로 만듭니다.
+                let data = {'comment': comment, 'blogId': [[${id}]]};
+                //POST /api/articles 에 data를 전달합니다.
+                $.ajax({
+                    type: "POST",
+                    url: "/api/blogs/{id}/comments",
+                    contentType: "application/json", // JSON 형식으로 전달함을 알리기
+                    data: JSON.stringify(data),
+                    success: function (response) {
+                        alert('댓글 작성 완료');
+                        window.location.reload();
+                    }
+                });
+            }
+        }
+
+        /////////댓글 전체 불러오기//////////////
+        function getComment() {
+            let id =[[${id}]];
+            $.ajax({
+                type: 'GET',
+                url: `/blogs/${id}/comments`,
+                success: function (response) {
+                    console.log(response)
+                    for (let i =0; i<response.length;i++){
+                        let comments = response[i];
+                        let comment = comments.comment;
+                        let username = comments.username;
+                        let modifiedAt = comments.modifiedAt;
+                        let commentId = comments.id;
+                        console.log(comment,username,modifiedAt)
+                        commentAddHTML(comment,username, modifiedAt,commentId);
+                    }
+                }
+            })
+        }
+        function commentAddHTML(comment,username, modifiedAt, commentId){
+            let tempHtml = makeComments(comment,username, modifiedAt, commentId);
+            $('#cards-box').append(tempHtml);
+        }
+
+        function makeComments(comment,username, modifiedAt, commentId) {
+            console.log(usernames)
+            let hide ="hide"
+            console.log(username)
+            if (usernames === username){
+                hide=""
+            }
+            return `<div class="box comment-box">
+                      <article class="media">
+                        <div class="media-content">
+                          <div class="content">
+                            <p>
+                              <strong class="comment-name">${username}</strong><p class="comment-modi">${modifiedAt}</p>
+                              <br>
+                            <p id="${commentId}-comment">${comment}</p>
+                            </p>
+                            <textarea class="textarea comment-text" rows="3" id="${commentId}-textarea" placeholder="e.g. Hello world"></textarea>
+                          </div>
+                          <nav class="level is-mobile">
+                            <div class="level-left btn-box">
+                              <a class="level-item ${hide}" aria-label="reply">
+                                <i class="fas fa-edit" id="${commentId}-edit" onclick="editComment(${commentId})"></i>
+                              </a>
+                              <a class="level-item ${hide}" id="${commentId}-delete" aria-label="retweet" onclick="deleteComment(${commentId})">
+                                <i class="fas fa-trash-alt"></i>
+                              </a>
+                              <a class="level-item check " id="${commentId}-check" aria-label="check">
+                                <i class="fas fa-lg fa-check-square" onclick="submitEdit(${commentId})"></i>
+                              </a>
+                            </div>
+                          </nav>
+                        </div>
+                      </article>
+                    </div>`;
+            // $('#cards-box').append(tempHtml);
+        }
+
+        function editComment(commentId){
+
+            showEdit(commentId)
+            let comment = $(`#${commentId}-comment`).text().trim();
+            $(`#${commentId}-textarea`).val(comment)
+        }
+
+        function showEdit(commentId){
+            $(`#${commentId}-textarea`).show();
+            $(`#${commentId}-check`).show();
+            $(`#${commentId}-comment`).hide();
+            $(`#${commentId}-edit`).hide();
+            $(`#${commentId}-delete`).hide();
+        }
+
+        function submitEdit(commentId) {
+            //작성 대상 메모의 username과 title, contents 를 확인합니다.
+            let comment = $(`#${commentId}-textarea`).val().trim();
+            //작성한 메모가 올바른지 isValidContents 함수를 통해 확인합니다.
+            if (isValidComments(comment) == false) {
+                return;
+            }
+            //전달할 data JSON으로 만듭니다.
+            let data = {'comment': comment};
+            //넘겨줄 값을 id에 넣기
+            //PUT /api/memos/{id} 에 data를 전달합니다.
+            $.ajax({
+                type: "PUT",
+                url: `/api/blogs/{blogId}/comments/${commentId}`,
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                success: function (response) {
+                    alert('댓글 수정 성공');
+                    window.location.reload();
+                }
+            });
+        }
+
+        //댓글 삭제
+        function deleteComment(commentId) {
+            //DELETE /api/memos/{id} 에 요청해서 메모를 삭제합니다.
+            // let commentId =[[${commentId}]];
+            var result = confirm("정말로 삭제하시겠습니까?")
+            if (result){
                 $.ajax({
                     type: "DELETE",
-                    url: `/api/blogs/${id}`,
+                    url: `/api/blogs/{blogId}/comments/${commentId}`,
                     success: function (response) {
-                        alert('삭제 완료');
-                        window.location.href = '/';
+                        console.log(response)
+                        if (response==="삭제성공"){
+                            alert('댓글 삭제 성공');
+                            window.location.reload();
+                        } else {
+                            alert('작성자만 삭제할수 있습니다.')
+                        }
                     }
                 })
+            }else {
+                alert("잘생각하셨습니다!")
+                window.location.reload();
             }
         }
 
@@ -115,28 +363,38 @@
 <body>
 <div id="detailBox">
     <div class="card text-center size">
-        <div class="card-header" id="name">
-            작성자
+        <div class="card-header" id="username">
+            [[${username}]]
         </div>
-        <div class="card-body">
-            <h5 class="card-title title" id="title">제목</h5>
-            <p class="card-text content" id="content">내용</p>
+        <div class="card-body" th:if="${#authentication.name} == ${username}" >
+            <h5 class="card-title title" id="title">[[${title}]]</h5>
+            <p class="card-text content" id="content">[[${content}]]</p>
             <button class="button" onclick="editPost()">수정하기</button>
             <button class="button" onclick="deleteOne()">삭제하기</button>
             <button class="button" onclick="back()">돌아가기</button>
         </div>
         <div class="card-footer text-muted" id="modifiedAt">
-            날짜
+            [[${modifiedAt}]]
         </div>
     </div>
 </div>
 
-<div>
-    <label class="commentBox">
-        <textarea class="textarea" id="comment" name="comment" rows="2" placeholder="댓글을 남겨주세요."></textarea>
-        <input type="submit" class="btn btn-primary btnStyle" onclick = "writeComment()" value="댓글작성">
-    </label>
+
+<div class="comment">
+    <p id="th1" th:text="${#authentication.name} + '님 댓글을 남겨주세요!'" ></p>
+    <textarea class="textarea" rows="2" id="comment"></textarea>
+    <button class="button comment-btn" onclick="writeComment()">댓글 남기기</button>
 </div>
+
+<div id="cards-box"></div>
+
+
+<!--<div class="comment">-->
+<!--    <label class="commentBox">-->
+<!--        <textarea class="textarea" id="comment" name="comment" rows="2" placeholder="댓글을 남겨주세요."></textarea>-->
+<!--        <input type="submit" class="btn btn-primary btnStyle" onclick = "writeComment()" value="댓글작성">-->
+<!--    </label>-->
+<!--</div>-->
 
 
 

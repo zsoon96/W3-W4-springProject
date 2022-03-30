@@ -3,55 +3,31 @@ package com.hanghae99.w3blogproject.service;
 import com.hanghae99.w3blogproject.domain.Comment;
 import com.hanghae99.w3blogproject.dto.CommentRequestDto;
 import com.hanghae99.w3blogproject.repository.CommentRepository;
-import com.hanghae99.w3blogproject.security.UserDetailsImpl;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.transaction.Transactional;
-import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class CommentService {
 
-    // 데이터들을 Read, Delete, Put을 하기 위해 해당 데이터가 담긴 CommentRepository 불러오기
+    // 업데이트 로직 구현 시 db가 필요하기 때문에 Repo를 멤버변수로 선언
     private final CommentRepository commentRepository;
 
-    // 해당 데이터(변경된 데이터)를 DB에 반영해줘!
+    // 두 줄을 통해 CommentRepository를 언제든 쓸 수 있게 스프링이 생성해서 넘겨줌
+    public CommentService(CommentRepository commentRepository) {
+        this.commentRepository = commentRepository;
+    }
+
     @Transactional
-    // update 메소드명을 통해 Long 타입으로 반환할거야
-    // 업데이트에 필요한 재료들을 가지고 (변경될 대상(id), 변경할 정보(dto)
-    public Long update(Long id, CommentRequestDto requestDto) {
-        // 레포에서 id값을 통해 찾고자하는 대상을 찾아 comment에 담아줘
-        Comment comment = commentRepository.findById(id).orElseThrow(
-                ()-> new IllegalArgumentException("해당 아이디가 존재하지 않습니다.")
+    public void updateComment(Long commentId, CommentRequestDto requestDto) {
+        Comment comment = commentRepository.findById(commentId).orElseThrow(
+                () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
         );
-        // 대상을 찾았으면, 변경할 정보 dto로 반환해줘!!
-        return comment.update(requestDto);
+        comment.updateComment(requestDto);
+        // 왜 반환값이 없지..?햣
     }
-
-    // createComment라는 메소드명을 통해 Comment(댓글 내용, 작성자, 게시글 번호) 생성자로 반환할거야
-    // 저장해야할 재료들을 가지고 (변경된 정보를 담고있는 dto(댓글 내용, 게시글 번호), 유저의 정보(작성자))
-    public Comment creatComment(CommentRequestDto requestDto, UserDetailsImpl userDetails) {
-        // comment 클래스를 저장하기 위해 comment 클래스를 먼저 생성해주고,
-        // 거기다가 저장할 데이터를 담아줘 ( 댓글 내용, 게시글 번호, 작성자)
-        Comment comment = new Comment(requestDto, userDetails.getUsername());
-        // 대상들을 comment에 담았으면, repository에 저장해줘!
-        return commentRepository.save(comment);
-    }
-
-//    public List<Comment> showComment(@PathVariable Long id, @RequestBody CommentRequestDto requestDto) {
-//        return commentRepository.findAllByBlogIdOrderByCreatedAteDesc(id);
-//    }
-
-    // deleteComment 메소드명을 통해 id 값을 삭제할거야
-    // PathVariable : 경로에 있는(={}) 데이터를 변수로 받는 어노테이션
-    public Long deleteComment (@PathVariable Long id){
-        // 레포지토리에 해당 아이디 값의 데이터를 삭제해줘!
-        commentRepository.deleteById(id);
-        // 삭제한 아이디 값을 반환해줘!
-        return id;
-    }
+    // 1. updateComment라는 메소드를 통해 반환타입 없이 반환해줘 ( 변경할 대상 commentId와 변경할 정보 dto를 활용해서 !)
+    // 2. comment Repo에서 해당 commentId값에 대한 정보를 찾아서 comment 객체에 담아줘!
+    // 3. 단, commentId가 없을 경우엔 예외처리 부탁해
+    // 4. comment의 해당 id에 dto의 정보를 반영해줘
 }

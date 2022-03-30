@@ -41,17 +41,17 @@
     <button class="mybtn" onclick="open_box()" sec:authorize="isAuthenticated()">기록하기</button>
 </div>
 <div class="mypost" id="mypost">
-    <div class="form-floating mb-3">
-        <input name="artist" type="text" class="form-control" id="name" placeholder="url">
-        <label for="floatingInput">작성자</label>
-    </div>
+<!--    <div class="form-floating mb-3">-->
+<!--        <input name="artist" type="text" class="form-control" id="username" placeholder="url">-->
+<!--        <label for="floatingInput">작성자</label>-->
+<!--    </div>-->
     <div class="form-floating mb-3">
         <input type="text" class="form-control" id="title" placeholder="url">
         <label for="floatingInput">제목</label>
     </div>
     <div class="form-floating">
             <textarea class="form-control" placeholder="Leave a comment here" id="content"
-                      style="height: 100px"></textarea>
+                      style="height: 120px"></textarea>
         <label for="floatingTextarea2">내용</label>
     </div>
     <button onclick="save_review()" type="button" class="btn btn-dark">등록</button>

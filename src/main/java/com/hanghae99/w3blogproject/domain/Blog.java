@@ -21,10 +21,14 @@ public class Blog extends Timestamped {
     private String title;
 
     @Column(nullable = false)
-    private String name;
+    private String username;
 
     @Column(nullable = false)
     private String content;
+
+    // 유저 아이디 값은 왜 필요할까요?
+    @Column (nullable = false)
+    private Long userId;
 
     // private 정보를 정해진 방법으로만 불러오는 메소드
 //    public Long getId() {
@@ -43,23 +47,19 @@ public class Blog extends Timestamped {
 //        return this.content;
 //    }
 
-    // title, name, content 생성할 때부터 부여하기 위해 생성자 추가
-    public Blog(String title, String name, String content) {
-        this.title = title;
-        this.name = name;
-        this.content = content;
+    // title, username, userId, content 생성할 때부터 부여하기 위해 생성자 추가
+    public Blog(BlogRequestDto requestDto, Long userId, String username) {
+        this.userId = userId;
+        this.title = requestDto.getTitle();
+        this.username = username;
+        this.content = requestDto.getContent();
     }
 
-    // blog라는 걸 받았을 때, 그 안에 있는 Title, name, content를 직접 업데이트 해주는 메소드
+    // blog라는 걸 받았을 때, 그 안에 있는 username, title, content를 직접 업데이트 해주는 메소드
     public void update(BlogRequestDto requestDto) {
         this.title = requestDto.getTitle();
-        this.name = requestDto.getName();
         this.content = requestDto.getContent();
+//        this.username = requestDto.getUsername();
     }
 
-    public Blog(BlogRequestDto requestDto) {
-        this.title = requestDto.getTitle();
-        this.name = requestDto.getName();
-        this.content = requestDto.getContent();
-    }
 }

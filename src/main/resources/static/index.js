@@ -23,11 +23,11 @@ $(document).ready(function () {
     close_box();
 });
 
-// 메모를 불러와서 보여주기
+// 게시글 목록 조회
 function getMessages() {
-    // 1. 기존 메모 내용을 지우기
+    // 1. 기존 게시글 내용을 지우기
     // $('#review-list').empty();
-    // 2. 메모 목록을 불러와서 HTML 로 붙이기
+    // 2. 게시글 목록을 불러와서 HTML 로 붙이기
     $.ajax({
         type: 'GET',
         url: '/api/blogs',
@@ -35,40 +35,41 @@ function getMessages() {
             for (let i = 0; i < response.length; i++) {
                 let contentList = response[i];
                 let id = contentList['id'];
-                let name = contentList['name'];
+                let username = contentList['username'];
                 let title = contentList['title'];
                 let content = contentList['content'];
                 let modifiedAt = contentList['modifiedAt'];
-                addHTML(id, name, title, content, modifiedAt);
+                addHTML(id, username, title, content, modifiedAt);
             }
         }
     })
 }
 
 
-function addHTML(id, name, title, content, modifiedAt) {
-    let tempHtml = `<tr onclick="window.location.href='/api/blogs/detail?id=${id}'" style="cursor: pointer">
+function addHTML(id, username, title, content, modifiedAt) {
+    let tempHtml = `<tr onclick="detail('${id}')" style="cursor: pointer">
                                 <th class="id">${id}</th>
                                 <td>${title}</td>
-                                <td class="name">${name}</td>
+                                <td class="username">${username}</td>
                                 <td class="modifiedAt">${modifiedAt}</td>
                             </tr>`
     $('#tableList').append(tempHtml);
 }
 
-// function detail(id){
-//     window.location.href = `/api/blogs/detail?id=${id}`
-// }
+function detail(id){
+    window.location.href = `/api/blogs/${id}`
+}
 
-
+// 게시글 저장
 function save_review() {
-    let name = $('#name').val()
+    let id = $('#id').val()
+    // let username = $('#username').val()
     let title = $('#title').val()
     let content = $('#content').val()
     if (isValidContents(content) == false) {
         return;
     }
-    let data = {'name': name, 'title': title, 'content': content};
+    let data = {'id':id, 'title': title, 'content': content};
     $.ajax({
         type: 'POST',
         url: '/api/blogs',

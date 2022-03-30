@@ -12,39 +12,43 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 
-public class Comment extends Timestamped{
+public class Comment extends Timestamped {
     @Id
     // 데이터베이스별 id 값 번호 부여 (순서)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     // 댓글 번호 생성
-    private Long commentId;
+    private Long id;
 
     // 작성자 생성
-    @Column (nullable = false)
+    @Column(nullable = false)
     private String username;
 
     // 댓글 내용 생성
-    @Column (nullable = false)
+    @Column(nullable = false)
     private String comment;
 
     // 게시글 번호 생성
-    @Column (nullable = false)
+    @Column(nullable = false)
     private Long blogId;
 
+    // 유저 아이디 값은 왜 필요할까요?
+    @Column(nullable = false)
+    private Long userId;
 
-    // 변경될 정보(댓글 내용, 게시글 번호) 가 담긴 생성자 추가
-    public Comment(CommentRequestDto requestDto, String username) {
+
+    // 변경될 정보(댓글 내용, 게시글 번호, 유저 아이디, 작성자) 가 담긴 생성자 추가
+    public Comment(CommentRequestDto requestDto, Long userId, String username) {
+        this.userId = userId;
         this.comment = requestDto.getComment();
         this.blogId = requestDto.getBlogId();
         this.username = username;
     }
 
-    // 업데이트 할 정보(댓글 내용, 게시글 번호)가 담긴 메소드..? 추가
-    public long update(CommentRequestDto requestDto){
+    // 업데이트 할 정보(댓글 내용)가 담긴 메소드..? 추가
+    // -> 왜 blogId는 해당이 안될까요? = dto에 담은 이유
+    // --> 실질적으로 변경되는 정보는 내용 뿐이니까?!
+    public void updateComment(CommentRequestDto requestDto) {
         this.comment = requestDto.getComment();
-        this.blogId = requestDto.getBlogId();
-        // Dto에 담겨진 comment와 blogId를 기존에서 업데이트 하고,
-        // 댓글 번호로 리턴해줘(누가 바뀌었는지 기준을 잡아서 알려주기 위해?)
-        return commentId;
     }
+
 }

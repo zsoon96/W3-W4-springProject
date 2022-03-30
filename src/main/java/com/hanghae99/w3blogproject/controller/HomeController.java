@@ -20,10 +20,4 @@ public class HomeController {
         model.addAttribute("username", userDetails.getUsername());
         return "index";
     }
-
-    // Index 페이지에서 각 ID값에 맞는 상세페이지 이동
-    @GetMapping("/api/blogs/detail")
-    public String detailBlog(@RequestParam("id") Long id) {
-        return "detail";
-    }
 }

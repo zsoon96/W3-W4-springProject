@@ -11,7 +11,8 @@ import lombok.Setter;
 @RequiredArgsConstructor
 
 public class BlogRequestDto {
+    // 변경될 데이터 목록
+//    private final String username;
     private final String title;
-    private final String name;
     private final String content;
 }

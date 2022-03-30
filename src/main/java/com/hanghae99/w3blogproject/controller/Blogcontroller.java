@@ -45,15 +45,17 @@ public class Blogcontroller {
         return blogRepository.findAllByOrderByModifiedAtDesc();
     }
 
+
     @GetMapping("/api/blogs/detail/{id}")
     public Blog getDetail (@PathVariable Long id) {
         return blogRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("null"));
 }
 
-    @PutMapping("/api/blogs/detail/{id}") // PathVariable: 경로에 있는 변수
+    @PutMapping("/api/blogs/{id}") // PathVariable: 경로에 있는 변수
     public Long updateBlog(@PathVariable Long id, @RequestBody BlogRequestDto requestDto) {
-        return blogService.update(id, requestDto);
+        blogService.update(id, requestDto);
+        return id;
     }
 
     @DeleteMapping("/api/blogs/{id}")
@@ -63,8 +65,4 @@ public class Blogcontroller {
     }
 
 
-    @GetMapping("/api/blogs/comments")
-    public ModelAndView getOneBlogAndComments(@RequestParam Long id, @AuthenticationPrincipal UserDetailsImpl userDetails){
-        return blogService.getOneBlogAndComments(id, userDetails);
-    }
 }

@@ -32,8 +32,8 @@ public class CommentController {
         return commentService.update(id, requestDto);
     }
 
-//    @GetMapping("/api/blogs/comments")
-//    public ModelAndView getOneBlogAndComments(@RequestBody @RequestParam Long id, @AuthenticationPrincipal UserDetailsImpl userDetails){
-//        return blogService.getOneBlogAndComments(id, userDetails);
-//    }
+    @GetMapping("/api/blogs/comments")
+    public ModelAndView getOneBlogAndComments(@RequestBody @RequestParam Long id, @AuthenticationPrincipal UserDetailsImpl userDetails){
+        return blogService.getOneBlogAndComments(id, userDetails);
+    }
 }

@@ -87,7 +87,6 @@
                     $('#name').text(response['name']);
                     $('#content').text(response['content']);
                     $('#modifiedAt').text(response['modifiedAt']);
-
                 }
             })
         }
@@ -96,38 +95,18 @@
             window.location.href='/'
         }
 
-        // 댓글 등록하기
-        function writeComment(){
-            let user = [[${user}]]
-            if (user === 'visitor'){
-                alert("로그인이 필요합니다.")
-                window.location.replace('/')
-                return;
+        function deleteOne() {
+            if (confirm("정말 삭제하시겠습니까?") == true){
+                $.ajax({
+                    type: "DELETE",
+                    url: `/api/blogs/${id}`,
+                    success: function (response) {
+                        alert('삭제 완료');
+                        window.location.href = '/';
+                    }
+                })
             }
-            let comment = $('#comment').val();
-            let blogId = [[${data.id}]]
-
-            // if (!isPostEmpty(comment, blogId)){
-            // if (!isPostEmpty(comment, blogId)){
-            //     alert("필수 값 입력 오류")
-            //     return;
-            // }
-
-            let data = {'comment':comment, 'blogId':blogId};
-
-            $.ajax({
-                type: "POST",
-                url: "/api/blogs/comments",
-                contentType: "application/json", // JSON 형식으로 전달함을 알리기
-                data: JSON.stringify(data),
-                success: function () {
-                    alert('댓글 작성 완료!!.');
-                    window.location.reload();
-                }
-            })
-
         }
-
 
     </script>
 </head>
@@ -141,8 +120,9 @@
         </div>
         <div class="card-body">
             <h5 class="card-title title" id="title">제목</h5>
-            <p class="card-text content" id="content">내용입니다</p>
-<!--            <button class="button" onclick="editPost()">수정하기</button>-->
+            <p class="card-text content" id="content">내용</p>
+            <button class="button" onclick="editPost()">수정하기</button>
+            <button class="button" onclick="deleteOne()">삭제하기</button>
             <button class="button" onclick="back()">돌아가기</button>
         </div>
         <div class="card-footer text-muted" id="modifiedAt">
@@ -153,7 +133,7 @@
 
 <div>
     <label class="commentBox">
-        <textarea class="textarea" id="comment" name="comment" rows="2" placeholder="댓글을 남겨주세요." th:text="${data.comment}"></textarea>
+        <textarea class="textarea" id="comment" name="comment" rows="2" placeholder="댓글을 남겨주세요."></textarea>
         <input type="submit" class="btn btn-primary btnStyle" onclick = "writeComment()" value="댓글작성">
     </label>
 </div>

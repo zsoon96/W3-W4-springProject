@@ -31,7 +31,7 @@ public class Comment extends Timestamped {
     @Column(nullable = false)
     private Long blogId;
 
-    // 유저 아이디 값은 왜 필요할까요?
+//     유저 아이디 값은 왜 필요할까요?
     @Column(nullable = false)
     private Long userId;
 

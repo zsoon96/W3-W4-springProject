@@ -203,6 +203,7 @@
             }
             return true;
         }
+
         //댓글 생성
         function writeComment() {
             if (usernames == 'anonymousUser') {
@@ -231,12 +232,13 @@
             }
         }
 
+
         /////////댓글 전체 불러오기//////////////
         function getComment() {
             let id =[[${id}]];
             $.ajax({
                 type: 'GET',
-                url: `/blogs/${id}/comments`,
+                url: `/api/blogs/${id}/comments`,
                 success: function (response) {
                     console.log(response)
                     for (let i =0; i<response.length;i++){
@@ -255,7 +257,6 @@
             let tempHtml = makeComments(comment,username, modifiedAt, commentId);
             $('#cards-box').append(tempHtml);
         }
-
         function makeComments(comment,username, modifiedAt, commentId) {
             console.log(usernames)
             let hide ="hide"
@@ -293,13 +294,14 @@
             // $('#cards-box').append(tempHtml);
         }
 
+
+        //댓글 수정
         function editComment(commentId){
 
             showEdit(commentId)
             let comment = $(`#${commentId}-comment`).text().trim();
             $(`#${commentId}-textarea`).val(comment)
         }
-
         function showEdit(commentId){
             $(`#${commentId}-textarea`).show();
             $(`#${commentId}-check`).show();
@@ -307,7 +309,7 @@
             $(`#${commentId}-edit`).hide();
             $(`#${commentId}-delete`).hide();
         }
-
+        //댓글 수정 완료
         function submitEdit(commentId) {
             //작성 대상 메모의 username과 title, contents 를 확인합니다.
             let comment = $(`#${commentId}-textarea`).val().trim();
@@ -330,6 +332,7 @@
                 }
             });
         }
+
 
         //댓글 삭제
         function deleteComment(commentId) {
@@ -361,16 +364,17 @@
 
 
 <body>
+<!--게시물-->
 <div id="detailBox">
     <div class="card text-center size">
         <div class="card-header" id="username">
             [[${username}]]
         </div>
-        <div class="card-body" th:if="${#authentication.name} == ${username}" >
+        <div class="card-body" >
             <h5 class="card-title title" id="title">[[${title}]]</h5>
             <p class="card-text content" id="content">[[${content}]]</p>
-            <button class="button" onclick="editPost()">수정하기</button>
-            <button class="button" onclick="deleteOne()">삭제하기</button>
+<!--            <button class="button" onclick="editPost()">수정하기</button>-->
+<!--            <button class="button" onclick="deleteOne()">삭제하기</button>-->
             <button class="button" onclick="back()">돌아가기</button>
         </div>
         <div class="card-footer text-muted" id="modifiedAt">
@@ -379,13 +383,14 @@
     </div>
 </div>
 
-
+<!--댓글 작성란-->
 <div class="comment">
     <p id="th1" th:text="${#authentication.name} + '님 댓글을 남겨주세요!'" ></p>
     <textarea class="textarea" rows="2" id="comment"></textarea>
     <button class="button comment-btn" onclick="writeComment()">댓글 남기기</button>
 </div>
 
+<!--댓글 목록-->
 <div id="cards-box"></div>
 
 

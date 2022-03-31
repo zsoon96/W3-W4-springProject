@@ -24,7 +24,7 @@ public class CommentService {
                 () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
         );
         comment.updateComment(requestDto);
-        // 왜 반환값이 없지..?햣
+        // 왜 반환값이 없지..?
     }
     // 1. updateComment라는 메소드를 통해 반환타입 없이 반환해줘 ( 변경할 대상 commentId와 변경할 정보 dto를 활용해서 !)
     // 2. comment Repo에서 해당 commentId값에 대한 정보를 찾아서 comment 객체에 담아줘!
